@@ -26,6 +26,8 @@ namespace CoinEx.Net.Interfaces.Clients.FuturesApi
         /// <param name="hide">["<c>is_hide</c>"] Hide the order</param>
         /// <param name="stpMode">["<c>stp_mode</c>"] Self trade prevention mode</param>
         /// <param name="ct">Cancelation Token</param>
+        /// <param name="positionSide">["<c>position_side</c>"] Required in hedge mode; omit in one-way mode.</param>
+        /// <param name="reduceOnly">["<c>is_reduce_only</c>"] Only reduce an existing position.</param>
         /// <returns></returns>
         Task<HttpResult<CoinExFuturesOrder>> PlaceOrderAsync(
             string symbol,
@@ -36,7 +38,9 @@ namespace CoinEx.Net.Interfaces.Clients.FuturesApi
             string? clientOrderId = null,
             bool? hide = null,
             SelfTradePreventionMode? stpMode = null,
-            CancellationToken ct = default);
+            CancellationToken ct = default,
+            PositionSide? positionSide = null,
+            bool? reduceOnly = null);
 
         /// <summary>
         /// Place a new stop order
@@ -318,8 +322,9 @@ namespace CoinEx.Net.Interfaces.Clients.FuturesApi
         /// <param name="clientOrderId">["<c>client_id</c>"] Client order id</param>
         /// <param name="hidden">["<c>is_hide</c>"] Is hidden</param>
         /// <param name="ct">Cancelation Token</param>
+        /// <param name="positionSide">["<c>position_side</c>"] Required in hedge mode; omit in one-way mode.</param>
         /// <returns></returns>
-        Task<HttpResult<CoinExFuturesOrder>> ClosePositionAsync(string symbol, OrderTypeV2 orderType, decimal? price = null, decimal? quantity = null, string? clientOrderId = null, bool? hidden = null, CancellationToken ct = default);
+        Task<HttpResult<CoinExFuturesOrder>> ClosePositionAsync(string symbol, OrderTypeV2 orderType, decimal? price = null, decimal? quantity = null, string? clientOrderId = null, bool? hidden = null, CancellationToken ct = default, PositionSide? positionSide = null);
 
         /// <summary>
         /// Adjust the margin for a position. Positive quantity for increasing, negative quantity for decreasing

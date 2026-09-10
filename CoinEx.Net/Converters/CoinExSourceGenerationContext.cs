@@ -59,6 +59,7 @@ namespace CoinEx.Net.Converters
     [JsonSerializable(typeof(CoinExSocketUpdate<CoinExMaintenance[]>))]
     [JsonSerializable(typeof(CoinExApiResult<CoinExTradeFee>))]
     [JsonSerializable(typeof(CoinExApiResult<CoinExLeverage>))]
+    [JsonSerializable(typeof(CoinExApiResult<CoinExFuturesMarketSettings>))]
     [JsonSerializable(typeof(CoinExApiResult<CoinExServerTime>))]
     [JsonSerializable(typeof(CoinExApiResult<CoinExOrderBook>))]
     [JsonSerializable(typeof(CoinExApiResult<CoinExFuturesOrder>))]

@@ -34,7 +34,9 @@ namespace CoinEx.Net.Clients.FuturesApi
             string? clientOrderId = null,
             bool? hide = null,
             SelfTradePreventionMode? stpMode = null,
-            CancellationToken ct = default)
+            CancellationToken ct = default,
+            PositionSide? positionSide = null,
+            bool? reduceOnly = null)
         {
             clientOrderId = LibraryHelpers.ApplyBrokerId(
                 clientOrderId,
@@ -54,6 +56,8 @@ namespace CoinEx.Net.Clients.FuturesApi
             parameters.Add("client_id", clientOrderId);
             parameters.Add("is_hide", hide);
             parameters.Add("stp_mode", stpMode);
+            parameters.Add("position_side", positionSide);
+            parameters.Add("is_reduce_only", reduceOnly);
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "v2/futures/order", CoinExExchange.RateLimiter.CoinExRestFuturesOrder, 1, true);
             return await _baseClient.SendAsync<CoinExFuturesOrder>(request, parameters, ct).ConfigureAwait(false);
         }
@@ -474,7 +478,7 @@ namespace CoinEx.Net.Clients.FuturesApi
         }
 
         /// <inheritdoc />
-        public async Task<HttpResult<CoinExFuturesOrder>> ClosePositionAsync(string symbol, OrderTypeV2 orderType, decimal? price = null, decimal? quantity = null, string? clientOrderId = null, bool? hidden = null, CancellationToken ct = default)
+        public async Task<HttpResult<CoinExFuturesOrder>> ClosePositionAsync(string symbol, OrderTypeV2 orderType, decimal? price = null, decimal? quantity = null, string? clientOrderId = null, bool? hidden = null, CancellationToken ct = default, PositionSide? positionSide = null)
         {
             clientOrderId = LibraryHelpers.ApplyBrokerId(
                 clientOrderId,
@@ -492,6 +496,7 @@ namespace CoinEx.Net.Clients.FuturesApi
             parameters.Add("amount", quantity);
             parameters.Add("client_id", clientOrderId);
             parameters.Add("is_hide", hidden);
+            parameters.Add("position_side", positionSide);
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "v2/futures/close-position", CoinExExchange.RateLimiter.CoinExRestFuturesOrder, 1, true);
             return await _baseClient.SendAsync<CoinExFuturesOrder>(request, parameters, ct).ConfigureAwait(false);
         }

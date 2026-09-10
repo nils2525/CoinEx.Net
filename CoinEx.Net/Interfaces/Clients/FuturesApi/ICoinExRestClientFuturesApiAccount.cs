@@ -37,7 +37,23 @@ namespace CoinEx.Net.Interfaces.Clients.FuturesApi
         /// <param name="mode">["<c>margin_mode</c>"] Margin mode</param>
         /// <param name="leverage">["<c>leverage</c>"] Leverage</param>
         /// <param name="ct">Cancelation token</param>
+        /// <param name="positionSide">["<c>position_side</c>"] Position side in hedge mode; omit in one-way mode.</param>
         /// <returns></returns>
-        Task<HttpResult<CoinExLeverage>> SetLeverageAsync(string symbol, MarginMode mode, int leverage, CancellationToken ct = default);
+        Task<HttpResult<CoinExLeverage>> SetLeverageAsync(string symbol, MarginMode mode, int leverage, CancellationToken ct = default, PositionSide? positionSide = null);
+
+        /// <summary>
+        /// Get account-wide futures market settings.
+        /// <para><a href="https://docs.coinex.com/api/v2/account/settings/http/accquire-futures-market-settings" /></para>
+        /// </summary>
+        /// <param name="ct">Cancellation token.</param>
+        Task<HttpResult<CoinExFuturesMarketSettings>> GetMarketSettingsAsync(CancellationToken ct = default);
+
+        /// <summary>
+        /// Set the account-wide futures position mode.
+        /// <para><a href="https://docs.coinex.com/api/v2/account/settings/http/modify-futures-market-settings" /></para>
+        /// </summary>
+        /// <param name="positionMode">["<c>position_mode</c>"] Global position mode.</param>
+        /// <param name="ct">Cancellation token.</param>
+        Task<HttpResult> SetPositionModeAsync(PositionMode positionMode, CancellationToken ct = default);
     }
 }

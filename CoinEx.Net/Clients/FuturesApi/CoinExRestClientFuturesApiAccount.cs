@@ -45,17 +45,34 @@ namespace CoinEx.Net.Clients.FuturesApi
         }
 
         /// <inheritdoc />
-        public async Task<HttpResult<CoinExLeverage>> SetLeverageAsync(string symbol, MarginMode mode, int leverage, CancellationToken ct = default)
+        public async Task<HttpResult<CoinExLeverage>> SetLeverageAsync(string symbol, MarginMode mode, int leverage, CancellationToken ct = default, PositionSide? positionSide = null)
         {
             var parameters = new Parameters(CoinExExchange._parameterSerializationSettings)
             {
                 { "market", symbol },
                 { "leverage", leverage }
             };
-            parameters.Add("market_Type", AccountType.Futures);
+            parameters.Add("market_type", AccountType.Futures);
             parameters.Add("margin_mode", mode);
+            parameters.Add("position_side", positionSide);
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "v2/futures/adjust-position-leverage", CoinExExchange.RateLimiter.CoinExRestFuturesOrder, 1, true);
             return await _baseClient.SendAsync<CoinExLeverage>(request, parameters, ct).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<HttpResult<CoinExFuturesMarketSettings>> GetMarketSettingsAsync(CancellationToken ct = default)
+        {
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "v2/account/futures-market-settings", CoinExExchange.RateLimiter.CoinExRestSpotAccount, 1, true);
+            return await _baseClient.SendAsync<CoinExFuturesMarketSettings>(request, null, ct).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<HttpResult> SetPositionModeAsync(PositionMode positionMode, CancellationToken ct = default)
+        {
+            var parameters = new Parameters(CoinExExchange._parameterSerializationSettings);
+            parameters.Add("position_mode", positionMode);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "v2/account/futures-market-settings", CoinExExchange.RateLimiter.CoinExRestSpotAccount, 1, true);
+            return await _baseClient.SendAsync<object>(request, parameters, ct).ConfigureAwait(false);
         }
     }
 }

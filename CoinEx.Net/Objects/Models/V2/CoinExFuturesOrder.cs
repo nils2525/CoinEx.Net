@@ -33,6 +33,16 @@ namespace CoinEx.Net.Objects.Models.V2
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
+        /// ["<c>position_side</c>"] Position direction.
+        /// </summary>
+        [JsonPropertyName("position_side")]
+        public PositionSide? PositionSide { get; set; }
+        /// <summary>
+        /// ["<c>stop_id</c>"] Related stop order id in order updates.
+        /// </summary>
+        [JsonPropertyName("stop_id")]
+        public long? StopOrderId { get; set; }
+        /// <summary>
         /// ["<c>type</c>"] Order type
         /// </summary>
         [JsonPropertyName("type")]
