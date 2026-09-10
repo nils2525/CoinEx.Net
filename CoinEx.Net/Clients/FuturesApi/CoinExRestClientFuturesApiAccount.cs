@@ -72,7 +72,8 @@ namespace CoinEx.Net.Clients.FuturesApi
             var parameters = new Parameters(CoinExExchange._parameterSerializationSettings);
             parameters.Add("position_mode", positionMode);
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "v2/account/futures-market-settings", CoinExExchange.RateLimiter.CoinExRestSpotAccount, 1, true);
-            return await _baseClient.SendAsync<object>(request, parameters, ct).ConfigureAwait(false);
+            // This endpoint only acknowledges the change; use the registered non-generic response envelope.
+            return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
     }
 }
